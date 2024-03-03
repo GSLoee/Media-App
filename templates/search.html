@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="search-container">
+    <form action="/search/multi/" class="search-form">
+        <input type="text" name="query" id="search-bar" placeholder="Search for a movie or tv show">
+        <button class="search-btn">Search</button>
+    </form>
+    {% if search_data['results'] == [] %}
+        <h1>No Results Found</h1>
+    {% else %}
+        <div class="trending">
+            {% for data in search_data['results'] %}
+                {% if data['poster_path'] %}
+                    <div class="media">
+                        {% set poster = 'https://media.themoviedb.org/t/p/w220_and_h330_face' + data['poster_path'] %}
+                        <a href="/{{ data['media_type'] }}/{{ data['id'] }}">
+                            <img src="{{ poster }}" alt="{% if data['title'] %}{{ data['title'] }}{% else %}{{ data['name'] }}{% endif %}">
+                        </a>
+                        <h3 class="trending-title">
+                            <a href="/{{ data['media_type'] }}/{{ data['id'] }}">
+                                {% if data['title'] %}
+                                    {{ data['title'] }}
+                                {% else %}
+                                    {{ data['name'] }}
+                                {% endif %}
+                            </a>
+                        </h3>
+                        <div class="trending-info">
+                            <span class="rating"><i class="fa fa-star-o"></i>&#9734 {{ data['vote_average'] }}</span>
+                            <span class="media-type">{{ data['media_type'] }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %} 
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
+{% endblock %}

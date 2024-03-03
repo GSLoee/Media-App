@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Media List</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand">
+        {% if not g.user %}
+        <ul>
+            <li><a href="/"><img src="/static/images/Logo.png" alt="Logo" width="80" height="40"></a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/signup">Sign Up</a></li>
+            <li><a href="/login">Log In</a></li>
+        </ul>
+        {% else %}
+        <ul>
+            <li><a href="/"><img src="/static/images/Logo.png" alt="Logo" width="80" height="40"></a></li>
+            <li class=""><a href="/">Home</a></li>
+            <li class=""><a href="/watchlist-tv/{{g.user.id}}">Watch List for TV Shows</a></li>
+            <li class=""><a href="/watchlist-movie/{{g.user.id}}">Watch List for Movies</a></li>
+            <li class=""><a href="/logout">Log Out</a></li>
+            <li class=""><img src="{{g.user.image_url}}" alt="{{g.user.image_url}}" class="rounded-circle" width="35" height="30" id="profile-pic"></li>
+        </ul>
+        <ul class="sidebar">
+            <li onclick=hideSidebar()><a href="/"><img src="/static/images/close_FILL0_wght400_GRAD0_opsz24.png" alt=""></a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/watchlist-tv/{{g.user.id}}">Watch List for TV Shows</a></li>
+            <li><a href="/watchlist-movie/{{g.user.id}}">Watch List for Movies</a></li>
+            <li><a href="/logout">Log Out</a></li>
+            <li><img src="{{g.user.image_url}}" alt="{{g.user.image_url}}" class="rounded-circle" width="35" height="30" id="profile-pic"></li>
+            <li onclick=showSidebar()><a href="#"><img src="/static/images/menu_FILL0_wght400_GRAD0_opsz24.png" alt=""></a></li>
+        </ul>
+        {% endif %}
+    </nav>
+    {% block content %}
+    <div class="search-container">
+    <form action="/search/multi/" class="search-form">
+        <input type="text" name="query" id="search-bar" placeholder="Search for a movie or tv show">
+        <button class="search-btn">Search</button>
+    </form>
+    
+    <h2 class="trending-title">Trending</h2>
+    <div class="trending">
+    {% for data in trending['results'] %}
+    
+          <div class="media">
+            {% set poster = 'https://media.themoviedb.org/t/p/w220_and_h330_face' + data['poster_path'] %}
+            
+            {% if data['title'] %}
+            <a href="/{{ data['media_type'] }}/{{ data['id'] }}"
+            {% else %}
+            <a href="/{{ data['media_type'] }}/{{ data['id'] }}"
+            {% endif %}
+            "><img src="{{ poster }}" 
+        {% if data['title'] %}
+        alt="{{ data['title'] }}"
+        {% else %}
+        alt="{{ data['name'] }}"
+        {% endif %}"></a>
+            <h3 class="trending-title"><a href="
+                {% if data['title'] %}
+                /{{ data['media_type'] }}/{{ data['id'] }}
+                {% else %}
+                /{{ data['media_type'] }}/{{ data['id'] }}
+                {% endif %}
+                ">
+                {% if data['title'] %}
+                    {{ data['title'] }}
+                {% else %}
+                    {{ data['name'] }}
+                {% endif %}</a></h3>
+            <div class="trending-info">
+                <span class="rating"><i class="fa fa-star-o"></i>&#9734 {{ data['vote_average'] }}</span>
+                <span class="media-type">{{ data['media_type'] }}</span>
+            </div>
+          </div>
+    {% endfor %}          
+    
+    
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/app.js"></script>
+</html>
+
+{% endblock %}

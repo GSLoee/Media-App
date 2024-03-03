@@ -1,0 +1,286 @@
+nav {
+    background-color: #302f2f; /* Dark background color */
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+nav li {
+    margin-right: 15px;
+    /* height: 50px; */
+}
+
+nav a {
+    text-decoration: none;
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+}
+nav a:hover{
+    color: #f0f0f0;
+}
+.active{
+    color: #f0f0f0;
+}
+nav li:first-child{
+    margin-right: auto;
+}
+.user-image {
+    width: 30px; /* Adjust the width of the user image */
+    height: 30px; /* Adjust the height of the user image */
+    border-radius: 50%; /* Make the user image circular */
+    object-fit: cover; /* Ensure the image covers the circular boundary */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+    max-width: 30px;
+    border-radius: 50%; /* Make the logo image circular */
+}
+
+body {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,99,0.9837184873949579) 48%, rgba(0,212,255,1) 100%);
+}
+
+.search-container {
+    text-align: center; /* Center the content horizontally */
+    margin-top: 20px; /* Add some top margin */
+}
+
+.search-form {
+    width: 70%; /* Set the width of the search form container */
+    max-width: 600px; /* Set a maximum width */
+    margin: 0 auto; /* Center the search form horizontally */
+}
+
+#search-bar {
+    width: 80%; /* Set the width of the search input */
+    padding: 10px; /* Add padding to the search input */
+    font-size: 16px; /* Adjust font size */
+    border-radius: 40px;
+}
+#search-bar:focus{
+    outline: 0;
+}
+
+.search-btn {
+    border: none;
+    color: #fff;
+    background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
+    border-radius: 20px;
+    background-size: 100% auto;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.6em 1.5em;
+}
+
+.search-btn:hover{
+    background-position: right center;
+    background-size: 200% auto;
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse512 1.5s infinite;
+}
+
+@keyframes pulse512 {
+    0% {
+     box-shadow: 0 0 0 0 #05bada66;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+   }
+
+.trending-title{
+    color: white;
+}
+
+.trending{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.media{
+    width: 240px;
+    margin: 1rem;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.media img{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.media img:hover{
+    filter:brightness(75%)
+}
+
+.trending-info{
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trending-info span{
+    border: 1px solid #aaa;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 3px;
+    padding: 1px 3px;
+    text-align: right;
+}
+
+
+.trending-title{
+    text-align: left;
+}
+.trending-title a{
+    text-align: left;
+    color: #ffffff;
+    text-decoration: none;
+}
+.trending-title a:hover{
+    text-decoration: underline;
+}
+.movie-info-container{
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background: rgba(19, 19, 19, 0.6);
+    display: flex;    
+}
+
+.movie-info-title h1{
+    color: #ffffff;
+}
+
+.movie-info-genre span{
+    color: #ffffff;
+}
+
+.movie-info-vote span{
+    color: #ffffff;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 1px 3px;
+}
+.movie-info-vote{
+    color: #ffffff;
+}
+
+.movie-info-overview p{
+    color: #ffffff;
+}
+
+.movie-info-poster img{
+    height: 500px;
+}
+
+.seasons span{
+    color: #ffffff;
+}
+
+.tv-status span{
+    color: #ffffff;
+}
+.buttons {
+    margin: 10%;
+    text-align: center;
+}
+
+
+.btn-hover {
+    width: 170px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 33px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    transition: none; /* Disable transitions for text change */
+}
+
+/* Apply styles when hovering over buttons */
+.btn-hover:hover {
+    background-position: 100% 0;
+}
+
+/* Remove outline when button is focused */
+.btn-hover:focus {
+    outline: none;
+}
+
+/* Apply gradient and box-shadow styles for watchlist button */
+.btn-hover.watchlist-btn {
+    background-image: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+
+/* Apply gradient and box-shadow styles for completed button */
+.btn-hover.completed-btn {
+    background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);
+    box-shadow: 0 5px 15px rgba(242, 97, 103, .4);
+}
+
+.completed-username{
+    color: #ffffff;
+}
+
+.watchlist-username{
+    color: #ffffff;
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 999;
+    background-color: #302f2fda;
+    backdrop-filter: blur(10px);
+    box-shadow: -10px 0 10px rgba(0,0,0,0.1);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}   
+.sidebar li{
+    width: 100%;
+}
+.sidebar a{
+    width: 100%;
+}
+@media(max-width: 800px){
+    .hideOnMobile{
+        display: none;
+    }
+}

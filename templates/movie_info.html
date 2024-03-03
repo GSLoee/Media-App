@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie_data['original_title'] }}</title>
+</head>
+<body>
+    <form action="">
+        {% if movie_data['poster_path'] %}
+            <div class="movie-info-container">
+                <div class="movie-info-poster">
+                    {% set poster = 'https://media.themoviedb.org/t/p/w220_and_h330_face' + movie_data['poster_path'] %}
+                    <img src="{{ poster }}" alt="{{ movie_data['title'] }}'s poster">
+                </div>
+                <div class="movie-info">
+                    <div class="movie-info-title">
+                        <h1>{{ movie_data['title'] }}</h1>
+                    </div>
+                    <div class="movie-info-genre">
+                        {% for genre in movie_data['genres'] %}
+                            <span>{{ genre['name'] }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="movie-info-vote">
+                        <span>&#9733 {{ movie_data['vote_average'] }}</span> &#x2022
+                        <span>{{ movie_data['runtime'] }} min</span> &#x2022
+                        <span>{{ movie_data['original_language'] }}</span>
+                    </div>
+                    <div class="movie-info-overview">
+                        <p>{{ movie_data['overview'] }}</p>
+                    </div>
+                    <button class="btn-hover watchlist-btn" formaction="/completed/add/{{movie_data['id']}}" formmethod="POST">Add To Watchlist</button>
+           
+                </div>
+            </div>
+        {% endif %}
+    </form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/app.js"></script>
+</html>
+{% endblock %}

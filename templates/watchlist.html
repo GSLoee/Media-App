@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed</title>
+</head>
+<body>
+    {% if not g.user %}
+    {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+    {% else %}
+    <form action="">
+    <h1 class="watchlist-username">{{ user.username }}'s TV Show Watchlist</h1>
+    {% for show in tv_data %}
+    <div class="watchlist-container">
+        <div class="movie-info-container">    
+            <div class="movie-info-poster">
+            {% if show['poster_path'] %}
+            {% set poster = 'https://media.themoviedb.org/t/p/w220_and_h330_face' + show['poster_path'] %}
+                <img src="{{ poster }}" alt="Poster">
+            </div>
+    
+        <div class="movie-info">
+            <div class="movie-info-title">
+                
+                <h1>{{ show['name'] }}</h1>
+            </div>
+    <div class="movie-info-genre">
+        {% for genre in show['genres'] %}
+        <span>{{genre['name']}}</span>
+        {% endfor %}
+        
+    </div>
+    <div class="movie-info-vote">
+        <span>&#9733 {{ show['vote_average'] }}</span> &#x2022
+        <span>{{ show['original_language'] }}</span>
+    </div>
+    <div class="seasons">
+        <span>Seasons: {{ show['number_of_seasons'] }} Episodes: {{ show['number_of_episodes'] }}</span>
+    </div>
+    <div class="tv-status">
+        <span>Status: {{ show['status'] }}</span>
+    </div>
+    <div class="movie-info-overview">
+        <p>{{ show['overview'] }}</p>
+    </div>    
+    <button class="btn-hover completed-btn" formaction="/delete/{{show['id']}}" formmethod="POST">Remove</button>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="app.js"></script>
+</html>
+{% endblock %}

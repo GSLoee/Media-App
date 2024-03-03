@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tv_data['original_title'] }}</title>
+</head>
+<body>
+    <form action="">
+        <div class="movie-info-container">
+            {% if tv_data['poster_path'] %}
+                <div class="movie-info-poster">
+                    {% set poster = 'https://media.themoviedb.org/t/p/w220_and_h330_face' + tv_data['poster_path'] %}
+                    <img src="{{ poster }}" alt="{{ tv_data['title'] }}'s poster">
+                </div>
+                <div class="movie-info">
+                    <div class="movie-info-title">
+                        <h1>{{ tv_data['name'] }}</h1>
+                    </div>
+                    <div class="movie-info-genre">
+                        {% for genre in tv_data['genres'] %}
+                            <span>{{ genre['name'] }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="movie-info-vote">
+                        <span>&#9733 {{ tv_data['vote_average'] }}</span> &#x2022
+                        <span>{{ tv_data['original_language'] }}</span>
+                    </div>
+                    <div class="seasons">
+                        <span>Seasons: {{ tv_data['number_of_seasons'] }} Episodes: {{ tv_data['number_of_episodes'] }}</span>
+                    </div>
+                    <div class="tv-status">
+                        <span>Status: {{ tv_data['status'] }}</span>
+                    </div>
+                    <div class="movie-info-overview">
+                        <p>{{ tv_data['overview'] }}</p>
+                    </div>
+            <button class="btn-hover watchlist-btn" formaction="/watchlist/add/{{tv_data['id']}}" formmethod="POST">Add To Watchlist</button>
+            
+                </div>
+                </div>
+            {% endif %}
+            
+        
+    </form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/app.js"></script>
+</html>
+{% endblock %}
