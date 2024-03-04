@@ -32,8 +32,11 @@
                     <div class="movie-info-overview">
                         <p>{{ movie_data['overview'] }}</p>
                     </div>
+                    {% if not g.user %}
+                    <p class="watchlist-btn-login">(Please log in to add to watchlist)</p>
+                    {% else %}
                     <button class="btn-hover watchlist-btn" formaction="/completed/add/{{movie_data['id']}}" formmethod="POST">Add To Watchlist</button>
-           
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
