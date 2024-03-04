@@ -2,15 +2,10 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from sqlalchemy.exc import IntegrityError
 from models import connect_db, db, bcrypt, User, Saved, Finished
 from forms import RegistrationForm, LoginForm
+from api import API_KEY, ACCESS_TOKEN, BASE_URL, TRENDING, POSTER_PATH
 import requests
 
 CURR_USER_KEY = "curr_user"
-
-API_KEY = 'api_key=9587288ce0f55e60456c7b916ba948c6'
-ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTg3Mjg4Y2UwZjU1ZTYwNDU2YzdiOTE2YmE5NDhjNiIsInN1YiI6IjY1Y2EyNWVmOThmMWYxMDE2MmQ4NzU2MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bDWDeMmOa8zCMA957ZD3tXHzCuqbm-Smdgf2fCSPPuU'
-BASE_URL = 'https://api.themoviedb.org/3'
-TRENDING = 'https://api.themoviedb.org/3/trending/all/day?'+API_KEY+'&language=en-US'
-POSTER_PATH = 'https://media.themoviedb.org/t/p/w220_and_h330_face'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///media_db'
