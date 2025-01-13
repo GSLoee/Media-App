@@ -3,22 +3,10 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from sqlalchemy.exc import IntegrityError
 from models import connect_db, db, bcrypt, User, Saved, Finished
 from forms import RegistrationForm, LoginForm
+from api import BASE_URL, TRENDING, POSTER_PATH, API_KEY, ACCESS_TOKEN
 import requests
-from dotenv import load_dotenv
-
-# Load environment variables from the .env file
-load_dotenv()
 
 CURR_USER_KEY = "curr_user"
-
-# Get API keys from environment variables
-API_KEY = os.getenv('API_KEY')
-ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
-
-# Define constants using the API keys
-BASE_URL = f"https://api.themoviedb.org/3"
-TRENDING = f"{BASE_URL}/trending/all/week?api_key={API_KEY}"
-POSTER_PATH = "https://image.tmdb.org/t/p/w500"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///media_db')
@@ -47,26 +35,76 @@ def do_logout():
 
 @app.route('/')
 def home():
+    # user = User.query.get_or_404()
     url = TRENDING
     trending = requests.get(url).json()
     return render_template('base.html', trending=trending)
+    
+@app.route('/signup', methods=["GET", "POST"])
+def signup():
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        try:
+            user = User.signup(
+                username=form.username.data,
+                password=form.password.data,
+                image_url=form.image_url.data or User.image_url.default.arg,
+            )
+            db.session.commit()
+        
+        except IntegrityError:
+            flash('Username is taken, please choose a new username', 'danger')
+            return render_template('signup.html', form=form)
+        
+        do_login(user)
+        return redirect('/')
+    
+    else: 
+        return render_template('signup.html', form=form)
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.authenticate(form.username.data, form.password.data)
+
+        if user: 
+            do_login(user)
+            # flash(f'Hello, {user.username}!', "success")
+            return redirect('/')
+        
+        flash('Invalid credentials.', 'danger')
+    
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    do_logout()
+    flash(f'You have been logged out')
+    return redirect('/login')
+   
+
 
 @app.route('/movie/<int:movie_id>')
 def movie_info(movie_id):
-    url = f"{BASE_URL}/movie/{movie_id}?api_key={API_KEY}&language=en-US"
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?{API_KEY}&language=en-US"
     movie_data = requests.get(url).json()
+    
     return render_template('movie_info.html', movie_data=movie_data)
 
 @app.route('/tv/<int:series_id>')
 def series_info(series_id):
-    url = f"{BASE_URL}/tv/{series_id}?api_key={API_KEY}&language=en-US"
+    url = f'https://api.themoviedb.org/3/tv/{series_id}?{API_KEY}&language=en-US'
     tv_data = requests.get(url).json()
+
     return render_template('tv_info.html', tv_data=tv_data)
 
 @app.route('/search/multi/', methods=['POST', 'GET'])
 def search():
     media_name = request.args.get('query')
-    url = f"{BASE_URL}/search/multi?api_key={API_KEY}&query={media_name}&include_adult=true&language=en-US"
+    url = f'https://api.themoviedb.org/3/search/multi?{API_KEY}&query={media_name}&include_adult=true&language=en-US'
     search_data = requests.get(url).json()
     return render_template('search.html', search_data=search_data)
 
@@ -152,6 +190,3 @@ def delete_movie(media_id):
         db.session.delete(finished_item)
         db.session.commit()
         return redirect(f'/watchlist-tv/{g.user.id}')
-   
-
-
